@@ -19,14 +19,17 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class CommentCreate(generics.ListCreateAPIView):
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = Comment.objects.all()
+    def get_queryset(self):
+        return Comment.objects.filter(post_id=self.kwargs['post_pk'])
+        
     serializer_class = CommentSerializer
     
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        serializer.save(author=self.request.user, post_id=self.kwargs['post_pk'])
         
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = Comment.objects.all()
+    def get_queryset(self):
+        return Comment.objects.filter(post_id=self.kwargs['post_pk'])
     serializer_class = CommentSerializer
     
