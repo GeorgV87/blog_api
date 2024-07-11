@@ -12,11 +12,12 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def clean(self):
-        if Post.objects.filter(title=self.title).exists():
-            raise ValidationError('A post with this title already exists.')
+        if self.pk is None:
+            if Post.objects.filter(title=self.title).exists():
+                raise ValidationError('A post with this title already exists.')
 
     def save(self, *args, **kwargs):
-        self.full_clean()
+        self.clean()
         super().save(*args, **kwargs)
         
     def __str__(self):
@@ -29,11 +30,12 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def clean(self):
-        if Comment.objects.filter(content=self.content, author = self.author).exists():
-            raise ValidationError('A comment with this content by this user already exists.')
+        if self.pk is None:
+            if Comment.objects.filter(content=self.content, author = self.author).exists():
+                raise ValidationError('A comment with this content by this user already exists.')
 
     def save(self, *args, **kwargs):
-        self.full_clean()
+        self.clean()
         super().save(*args, **kwargs)
     
     def __str__(self):
