@@ -3,7 +3,7 @@ from .views import PostListCreate, PostDetail, CommentCreate, CommentDetail
 
 from rest_framework.authtoken.views import obtain_auth_token
 
-
+app_name = "blog_app"
 urlpatterns = [
     path("posts/", PostListCreate.as_view(), name="posts"),
     path("posts/<int:pk>/", PostDetail.as_view(), name="post"),
