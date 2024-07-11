@@ -124,7 +124,7 @@ class CommentAPITests(APITestCase):
         self.assertEqual(2, Comment.objects.count())
 
         data = {
-            "content": "Another content",
+            "content":"Another content"
         }
 
         response = self.client.post(self.blog_url, data, format="json")
